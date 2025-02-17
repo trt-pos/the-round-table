@@ -1,0 +1,18 @@
+[submodule "desktop-app"]
+	path = desktop-app
+	url = https://github.com/trt-pos/desktop-app.git
+[submodule "plugin-cash-register"]
+	path = plugin-cash-register
+	url = https://github.com/trt-pos/plugin-cash-register.git
+[submodule "plugin-receipt-manager"]
+	path = plugin-receipt-manager
+	url = https://github.com/trt-pos/plugin-receipt-manager.git
+[submodule "plugin-spanish-billing"]
+	path = plugin-spanish-billing
+	url = https://github.com/trt-pos/plugin-spanish-billing.git
+[submodule "plugin-table-drawing"]
+	path = plugin-table-drawing
+	url = https://github.com/trt-pos/plugin-table-drawing.git
+[submodule "server-side"]
+	path = server-side
+	url = https://github.com/trt-pos/server-side.git

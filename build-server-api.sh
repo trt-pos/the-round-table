@@ -26,7 +26,6 @@ cp "target/release/server_side" "$SERVER/app"
 # Extracting plugins Data
 JSON_NAME="pluginData.json"
 cd "$SERVER/plugins" || exit
-counter=1
 
 # Loop a través de todos los archivos .jar en el directorio
 for jar_file in *.jar; do
@@ -34,9 +33,8 @@ for jar_file in *.jar; do
   
   if [ -n "$json_path" ]; then
     unzip -p "$jar_file" "$json_path" > "$jar_file.json"
-    echo "Extraído $JSON_NAME de $jar_file como $jar_file.json"
-    counter=$((counter + 1))
+    echo "Extracted $JSON_NAME of $jar_file as $jar_file.json"
   else
-    echo "El archivo $jar_file no contiene $JSON_NAME"
+    echo "The JAR $jar_file doesn't have $JSON_NAME"
   fi
 done

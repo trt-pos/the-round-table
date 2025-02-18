@@ -1,7 +1,5 @@
 #!/bin/bash
-
-rm -rf "desktop-app/plugins"
-mkdir -p "desktop-app/plugins"
+set -u
 
 cash-register() {
     cd "plugin-cash-register" || exit 
@@ -35,7 +33,7 @@ plugins=(
 )
 
 PLUGIN_NAME=$1
-if [[ -n "$PLUGIN_NAME" ]]; then
+if [[ "$PLUGIN_NAME" != "all" ]]; then
     if [[ ${plugins[@]} =~ "${PLUGIN_NAME}" ]]; then
         # Ejecutar solo el plugin especificado
         $PLUGIN_NAME
@@ -49,3 +47,20 @@ else
     done
     wait
 fi
+
+# Copy all the plugins into output/plugins
+PLUGINS_DIR="$(pwd)/output/plugins"
+rm -rf "$PLUGINS_DIR"
+mkdir -p "$PLUGINS_DIR"
+
+for dir in plugin-*/; do
+  if [ -d "$dir" ]; then
+    (
+      cd "$dir" || exit
+      PLUGIN_JAR="$(basename "$PWD").jar"
+      if [ -f "$PLUGIN_JAR" ]; then  # Verifica si el archivo existe
+        mv "$PLUGIN_JAR" "$PLUGINS_DIR"
+      fi
+    )
+  fi
+done

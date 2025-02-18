@@ -1,0 +1,80 @@
+<izpack:installation version="5.0"
+                     xmlns:izpack="http://izpack.org/schema/installation"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
+    <info>
+        <appname>The Round Table</appname>
+        <appversion>2.5.0</appversion>
+        <appsubpath>theroundtable</appsubpath>
+        <javaversion>1.2</javaversion>
+        <url>https://lebastudios.org</url>
+        <authors>
+            <author name="Borja Castellano" email="borja.castellano@lebastudios.org" />
+        </authors>
+        <run-privileged />
+    </info>
+
+    <variables>
+        <variable name="TargetPanel.dir.windows" value="C:/Program Files/theroundtable"/>
+        <variable name="TargetPanel.dir.unix" value="/opt/theroundtable"/>
+    </variables>
+    
+    <locale>
+        <langpack iso3="glg"/>
+        <langpack iso3="eng"/>
+        <langpack iso3="spa"/>
+    </locale>
+
+    <guiprefs width="800" height="600" resizable="no" />
+    <!--
+    <guiprefs width="800" height="600" resizable="no">
+        <laf name="substance">
+            <os family="windows" />
+            <os family="unix" />
+            <param name="variant" value="mist-silver" />
+        </laf>
+        <laf name="substance">
+            <os family="mac" />
+            <param name="variant" value="mist-aqua" />
+        </laf>
+        <modifier key="useHeadingPanel" value="yes" />
+    </guiprefs>
+    -->
+
+    <panels>
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="FinishPanel"/>
+    </panels>
+    
+    <packs>
+        <!-- UNIX -->
+        <pack name="Desktop app jar" required="yes" os="unix">
+            <description>The desktop app JAR</description>
+            <file src="output/theroundtable-linux-x64/bin/desktop-app.jar" targetdir="${INSTALL_PATH}/bin" override="true"/>
+        </pack>
+        <pack name="Launcher bin" required="yes" os="unix">
+            <description>The launcher Rust bin</description>
+            <file src="output/theroundtable-linux-x64/start" targetdir="${INSTALL_PATH}" override="true"/>
+        </pack>
+        <pack name="Uninstaller" required="no" os="unix">
+            <description>Uninstall script</description>
+            <file src="output/theroundtable-linux-x64/uninstall.sh" targetdir="${INSTALL_PATH}" override="true"/>
+        </pack>
+        <pack name="Shortcut" required="no" os="unix">
+            <description>The aplication shortcut</description>
+            <file src="output/theroundtable-linux-x64/theroundtable.desktop" targetdir="${INSTALL_PATH}" override="true"/>
+        </pack>
+
+        <!-- Common -->
+        <pack name="App images" required="yes">
+            <description>App images</description>
+            <fileset dir="output/theroundtable-linux-x64/images" targetdir="${INSTALL_PATH}/images" override="true"/>
+        </pack>
+        <pack name="Styles" required="yes">
+            <description>App styles</description>
+            <fileset dir="output/theroundtable-linux-x64/styles" targetdir="${INSTALL_PATH}/styles" />
+        </pack>
+    </packs>
+</izpack:installation>

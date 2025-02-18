@@ -26,7 +26,6 @@ rm -rf "$DESTINO"
 )
 
 mkdir -p "$DESTINO"
-mkdir "$DESTINO/plugins"
 
 cp -r "desktop-app/bin" "$DESTINO"
 cp -r "desktop-app/docs" "$DESTINO"

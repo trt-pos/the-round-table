@@ -15,8 +15,6 @@ fi
 REMOTE_USER="root"
 REMOTE_DIR="/srv/the-round-table-api"
 
-bash "$SCRIPT_DIR/build.sh" "linux"
-
 ssh "$REMOTE_USER@$REMOTE_HOST" "systemctl stop the-round-table"
 
 scp -r "$SCRIPT_DIR/output/trt-server-side/app" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"

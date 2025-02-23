@@ -1,16 +1,20 @@
 #!/bin/bash 
 set -u
 
-SERVER_OUTPUT="$(pwd)/output/trt-server-side"
+OUTPUT="$(pwd)/output"
+rm -rf "$OUTPUT"
+mkdir -p "$OUTPUT"
 
-# Preparing the output directory
-rm -rf "$SERVER_OUTPUT"
+# Building the server side binary
+SERVER_OUTPUT="$OUTPUT/trt-server-side"
+
 mkdir -p "$SERVER_OUTPUT"
 mkdir "$SERVER_OUTPUT/app"
 mkdir "$SERVER_OUTPUT/downloads"
 mkdir "$SERVER_OUTPUT/plugins"
 
-# Building the server side binary
+cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
+
 (
   cd server-side || exit
   cargo build --release -p server_side --bin server_side
@@ -18,14 +22,28 @@ mkdir "$SERVER_OUTPUT/plugins"
 )
 
 # Building the desktop app
-cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
+(
+  cd desktop-app || exit
+  bash build.sh all
+)
 
-bash build-app.sh linux
+cp -r "desktop-app/output/theroundtable-linux-x64" "$OUTPUT"
+cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
+  
 (
   cd "output" || exit
+  
+  cp "theroundtable-windows-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
   cp "theroundtable-linux-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
-  zip -r -9 "theroundtable-linux-x64.zip" "theroundtable-linux-x64"
+  
+  zip -r -9 "theroundtable-windows-x64.zip" "theroundtable-windows-x64" &
+  zip -r -9 "theroundtable-linux-x64.zip" "theroundtable-linux-x64" &
+  wait 
+  
+  cp "theroundtable-windows-x64.zip" "$SERVER_OUTPUT/downloads"
   cp "theroundtable-linux-x64.zip" "$SERVER_OUTPUT/downloads"
+  
+  rm "theroundtable-windows-x64.zip"
   rm "theroundtable-linux-x64.zip"
 )
 
@@ -50,6 +68,3 @@ cp -r "output/plugins" "$SERVER_OUTPUT"
     fi
   done
 )
-
-# izpack
-izpack -h /home/borja/IzPack/ -l 9 izpack.xml -o output/installer.jar

@@ -1,4 +1,11 @@
 #!/bin/bash 
+
+if [ "$1" == "prod" ]; then
+    git submodule update --init --recursive
+    # shellcheck disable=SC2016
+    git submodule foreach --recursive 'git fetch --tags && git checkout $(git tag -l "v*" --sort=-v:refname | head -n1)'
+fi
+
 set -u
 
 OUTPUT="$(pwd)/output"

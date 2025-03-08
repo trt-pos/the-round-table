@@ -7,6 +7,9 @@ SCRIPT_DIR="$(pwd)"
 if [ "$1" == "prod" ]; then
   echo "Deploying to production"
   REMOTE_HOST="trt.lebastudios.org"
+  git add .
+  git commit -m "deploying actual submodules to production"
+  git push origin master
 else
   echo "Deploying to development"
   REMOTE_HOST="test-trt.lebastudios.org"

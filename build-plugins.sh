@@ -1,49 +1,26 @@
 #!/bin/bash
 set -u
 
-cash-register() {
-    cd "plugin-cash-register" || exit 
+build-plugin() {
+    PLUGIN_NAME=$1
+    cd "plugin-$PLUGIN_NAME" || exit
     mvn clean package
     cd ..
 }
 
-receipt-manager() {
-    cd "plugin-receipt-manager" || exit
-    mvn clean package 
-    cd ..
-}
-
-table-drawing() {
-    cd "plugin-table-drawing" || exit 
-    mvn clean package 
-    cd ..
-}
-
-spanish-billing() {
-    cd "plugin-spanish-billing" || exit 
-    mvn clean package
-    cd ..
-}
-
+# List of deployed plugins to build automatically when running this script with "all" as argument
 plugins=(
     cash-register
     receipt-manager
     table-drawing
-    spanish-billing
 )
 
 PLUGIN_NAME=$1
 if [[ "$PLUGIN_NAME" != "all" ]]; then
-    if [[ ${plugins[@]} =~ "${PLUGIN_NAME}" ]]; then
-        # Ejecutar solo el plugin especificado
-        $PLUGIN_NAME
-    else
-        echo "Error: Plugin '$PLUGIN_NAME' not found"
-        exit 1
-    fi
+    build-plugin "$PLUGIN_NAME"
 else
     for plugin in "${plugins[@]}"; do
-        $plugin &
+      build-plugin "$plugin" &
     done
     wait
 fi

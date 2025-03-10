@@ -16,3 +16,6 @@
 [submodule "server-side"]
 	path = server-side
 	url = https://github.com/trt-pos/server-side.git
+[submodule "plugin-template"]
+	path = plugin-template
+	url = https://github.com/trt-pos/plugin-template.git

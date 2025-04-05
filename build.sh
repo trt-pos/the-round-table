@@ -43,6 +43,9 @@ cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
   cp "theroundtable-windows-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
   cp "theroundtable-linux-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
   
+  cp "theroundtable-windows-x64/start.exe" "$SERVER_OUTPUT/downloads/start-win-x64.bin"
+  cp "theroundtable-linux-x64/start" "$SERVER_OUTPUT/downloads/start-linux-x64.bin"
+  
   zip -r -9 "theroundtable-windows-x64.zip" "theroundtable-windows-x64" &
   zip -r -9 "theroundtable-linux-x64.zip" "theroundtable-linux-x64" &
   wait 

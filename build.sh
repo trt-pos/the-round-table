@@ -58,18 +58,23 @@ cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
 bash build-plugins.sh all
 cp -r "output/plugins" "$SERVER_OUTPUT"
 
-# Extracting plugins Data
+# Extracting plugin data and icons
 (
   JSON_NAME="pluginData.json"
+  ICON_NAME="plugin-icon.png"
   cd "$SERVER_OUTPUT/plugins" || exit
   
   # Loop a través de todos los archivos .jar en el directorio
   for jar_file in *.jar; do
     json_path=$(unzip -l "$jar_file" | grep "$JSON_NAME" | awk '{print $4}')
+    icon_path=$(unzip -l "$jar_file" | grep "$ICON_NAME" | awk '{print $4)')
     
     if [ -n "$json_path" ]; then
       unzip -p "$jar_file" "$json_path" > "$jar_file.json"
       echo "Extracted $JSON_NAME of $jar_file as $jar_file.json"
+    elif [ -n "$icon_path" ]; then
+      unzip -p "$jar_file" "$json_path" > "$jar_file.icon.png"
+      echo "Extracted $ICON_NAME of $jar_file as $jar_file.icon.png"
     else
       echo "The JAR $jar_file doesn't have $JSON_NAME"
     fi

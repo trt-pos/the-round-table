@@ -63,7 +63,7 @@ cp -r "output/plugins" "$SERVER_OUTPUT"
 
 # Extracting plugin data and icons
 (
-  JSON_NAME="pluginData.json"
+  JSON_NAME="plugin-data.json"
   ICON_NAME="plugin-icon.png"
   cd "$SERVER_OUTPUT/plugins" || exit
   

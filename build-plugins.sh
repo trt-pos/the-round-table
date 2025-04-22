@@ -15,15 +15,28 @@ plugins=(
     table-drawing
 )
 
+dev_plugins=(
+    spanish-billing
+    template
+    accounting
+)
+
 PLUGIN_NAME=$1
-if [[ "$PLUGIN_NAME" != "all" ]]; then
-    build-plugin "$PLUGIN_NAME"
+if [[ "$PLUGIN_NAME" != "all" && "$PLUGIN_NAME" != "dev" ]]; then
+    build-plugin "$PLUGIN_NAME" &
 else
     for plugin in "${plugins[@]}"; do
       build-plugin "$plugin" &
     done
-    wait
 fi
+
+if [ "$PLUGIN_NAME" == "dev" ]; then
+    for plugin in "${dev_plugins[@]}"; do
+      build-plugin "$plugin" &
+    done
+fi
+
+wait
 
 # Copy all the plugins into output/plugins
 PLUGINS_DIR="$(pwd)/output/plugins"

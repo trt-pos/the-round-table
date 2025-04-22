@@ -12,20 +12,26 @@ OUTPUT="$(pwd)/output"
 rm -rf "$OUTPUT"
 mkdir -p "$OUTPUT"
 
-# Building the server side binary
+# Building the server side api and plugin repository binaries
 SERVER_OUTPUT="$OUTPUT/trt-server-side"
 
 mkdir -p "$SERVER_OUTPUT"
-mkdir "$SERVER_OUTPUT/app"
+mkdir "$SERVER_OUTPUT/bin"
 mkdir "$SERVER_OUTPUT/downloads"
 mkdir "$SERVER_OUTPUT/plugins"
 
 cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
 
 (
-  cd server-side || exit
-  cargo build --release -p server_side --bin server_side
-  mv "target/release/server_side" "$SERVER_OUTPUT/app"
+  cd trt-central || exit
+  cargo build --release -p bin --bin bin
+  cp "target/release/bin" "$SERVER_OUTPUT/bin/api"
+)
+
+(
+  cd trt-plugin-repo || exit
+  cargo build --release -p bin --bin bin
+  cp "target/release/bin" "$SERVER_OUTPUT/bin/repo"
 )
 
 # Building the desktop app

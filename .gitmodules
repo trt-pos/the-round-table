@@ -13,12 +13,15 @@
 [submodule "plugin-table-drawing"]
 	path = plugin-table-drawing
 	url = https://github.com/trt-pos/plugin-table-drawing.git
-[submodule "server-side"]
-	path = server-side
-	url = https://github.com/trt-pos/server-side.git
 [submodule "plugin-template"]
 	path = plugin-template
 	url = https://github.com/trt-pos/plugin-template.git
 [submodule "plugin-accounting"]
 	path = plugin-accounting
 	url = https://github.com/trt-pos/plugin-accounting.git
+[submodule "trt-central"]
+	path = trt-central
+	url = https://github.com/trt-pos/trt-central.git
+[submodule "trt-plugin-repo"]
+	path = trt-plugin-repo
+	url = https://github.com/trt-pos/trt-plugin-repo.git

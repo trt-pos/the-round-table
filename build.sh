@@ -1,5 +1,8 @@
 #!/bin/bash 
 
+#######################################################################
+# Checkout the production version of the project
+#######################################################################
 if [ "$1" == "prod" ]; then
     git submodule update --init --recursive
     # shellcheck disable=SC2016
@@ -8,12 +11,17 @@ fi
 
 set -u
 
+#######################################################################
+# Cleaning up the output directory
+#######################################################################
 OUTPUT="$(pwd)/output"
 rm -rf "$OUTPUT"
 mkdir -p "$OUTPUT"
 
-# Building the server side api and plugin repository binaries
-SERVER_OUTPUT="$OUTPUT/trt-server-side"
+#######################################################################
+# Building the central server and plugin repo
+#######################################################################
+SERVER_OUTPUT="$OUTPUT/trt-central"
 
 mkdir -p "$SERVER_OUTPUT"
 mkdir "$SERVER_OUTPUT/bin"
@@ -24,17 +32,16 @@ cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
 
 (
   cd trt-central || exit
-  cargo build --release -p bin --bin bin
-  cp "target/release/bin" "$SERVER_OUTPUT/bin/api"
+  cargo build --release -p bin --bin bin &
+  cargo build --release -p plugin-repo --bin plugin-repo &
+  wait 
+  cp "target/release/bin" "$SERVER_OUTPUT/bin/rest-api"
+  cp "target/release/plugin-repo" "$SERVER_OUTPUT/bin/plugin-repo"
 )
 
-(
-  cd trt-plugin-repo || exit
-  cargo build --release -p bin --bin bin
-  cp "target/release/bin" "$SERVER_OUTPUT/bin/repo"
-)
-
+#######################################################################
 # Building the desktop app
+#######################################################################
 (
   cd desktop-app || exit
   bash build.sh all
@@ -63,10 +70,13 @@ cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
   rm "theroundtable-linux-x64.zip"
 )
 
-# Copying the plugins to the server
+#######################################################################
+# Building the plugins
+#######################################################################
 bash build-plugins.sh all
 cp -r "output/plugins" "$SERVER_OUTPUT"
 
+# TODO: Change this to use the plugin repo fs 
 # Extracting plugin data and icons
 (
   JSON_NAME="plugin-data.json"
@@ -93,3 +103,12 @@ cp -r "output/plugins" "$SERVER_OUTPUT"
     fi
   done
 )
+  
+#######################################################################
+# Resetting the docker compose
+#######################################################################
+docker-compose -f remote-server.yml down
+docker-compose -f desktop-app/trt-env.yml down
+
+docker-compose -f remote-server.yml up -d
+docker-compose -f desktop-app/trt-env.yml up -d

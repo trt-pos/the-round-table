@@ -22,6 +22,3 @@
 [submodule "trt-central"]
 	path = trt-central
 	url = https://github.com/trt-pos/trt-central.git
-[submodule "trt-plugin-repo"]
-	path = trt-plugin-repo
-	url = https://github.com/trt-pos/trt-plugin-repo.git

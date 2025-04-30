@@ -28,8 +28,6 @@ mkdir "$SERVER_OUTPUT/bin"
 mkdir "$SERVER_OUTPUT/downloads"
 mkdir "$SERVER_OUTPUT/plugins"
 
-cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
-
 (
   cd trt-central || exit
   cargo build --release -p bin --bin bin &
@@ -47,8 +45,10 @@ cp "desktop-app/installer.sh" "$SERVER_OUTPUT/downloads"
   bash build.sh all
 )
 
-cp -r "desktop-app/output/theroundtable-linux-x64" "$OUTPUT"
-cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
+#######################################################################
+# Copy the desktop app to the server file system
+#######################################################################
+cp -r desktop-app/output/* "$OUTPUT"
   
 (
   cd "output" || exit
@@ -59,15 +59,9 @@ cp -r "desktop-app/output/theroundtable-windows-x64" "$OUTPUT"
   cp "theroundtable-windows-x64/start.exe" "$SERVER_OUTPUT/downloads/start-win-x64.bin"
   cp "theroundtable-linux-x64/start" "$SERVER_OUTPUT/downloads/start-linux-x64.bin"
   
-  zip -r -9 "theroundtable-windows-x64.zip" "theroundtable-windows-x64" &
-  zip -r -9 "theroundtable-linux-x64.zip" "theroundtable-linux-x64" &
-  wait 
-  
-  cp "theroundtable-windows-x64.zip" "$SERVER_OUTPUT/downloads"
-  cp "theroundtable-linux-x64.zip" "$SERVER_OUTPUT/downloads"
-  
-  rm "theroundtable-windows-x64.zip"
-  rm "theroundtable-linux-x64.zip"
+  cp trt-installer-* "$SERVER_OUTPUT/downloads"
+  mv "theroundtable-windows-x64.zip" "$SERVER_OUTPUT/downloads"
+  mv "theroundtable-linux-x64.zip" "$SERVER_OUTPUT/downloads"
 )
 
 #######################################################################

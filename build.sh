@@ -51,7 +51,7 @@ mkdir "$SERVER_OUTPUT/plugins"
 cp -r desktop-app/output/* "$OUTPUT"
   
 (
-  cd "output" || exit
+  cd "${OUTPUT}" || exit
   
   cp "theroundtable-windows-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
   cp "theroundtable-linux-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
@@ -65,10 +65,44 @@ cp -r desktop-app/output/* "$OUTPUT"
 )
 
 #######################################################################
+# Add the jdk needed to create a portable version of the app
+#######################################################################
+## 24.0.1
+# Linux x64: https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_linux-x64_bin.tar.gz
+# Windows x64: https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip
+mkdir -p .jdks
+
+(
+  cd .jdks || exit
+  
+  if [ ! -d "openjdk-24.0.1_linux-x64_bin" ]; then
+    wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_linux-x64_bin.tar.gz
+    tar -xzf openjdk-24.0.1_linux-x64_bin.tar.gz
+    mv jdk-24.0.1 openjdk-24.0.1_linux-x64_bin
+    rm -r openjdk-24.0.1_linux-x64_bin.tar.gz
+  fi
+  
+  if [ ! -d "openjdk-24.0.1_windows-x64_bin" ]; then
+    wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip
+    unzip openjdk-24.0.1_windows-x64_bin.zip
+    mv jdk-24.0.1 openjdk-24.0.1_windows-x64_bin
+    rm -r openjdk-24.0.1_windows-x64_bin.zip
+  fi
+)
+
+# Copy the jdks to the portable versions
+
+mkdir -p "$OUTPUT/theroundtable-linux-x64/jdk"
+mkdir -p "$OUTPUT/theroundtable-windows-x64/jdk"
+
+cp -r .jdks/openjdk-24.0.1_linux-x64_bin/* "${OUTPUT}/theroundtable-linux-x64/jdk"
+cp -r .jdks/openjdk-24.0.1_windows-x64_bin/* "${OUTPUT}/theroundtable-windows-x64/jdk"
+
+#######################################################################
 # Building the plugins
 #######################################################################
 bash build-plugins.sh all
-cp -r "output/plugins" "$SERVER_OUTPUT"
+cp -r "${OUTPUT}/plugins" "$SERVER_OUTPUT"
 
 # TODO: Change this to use the plugin repo fs 
 # Extracting plugin data and icons
@@ -97,12 +131,3 @@ cp -r "output/plugins" "$SERVER_OUTPUT"
     fi
   done
 )
-  
-#######################################################################
-# Resetting the docker compose
-#######################################################################
-docker-compose -f remote-server.yml down
-docker-compose -f desktop-app/trt-env.yml down
-
-docker-compose -f remote-server.yml up -d
-docker-compose -f desktop-app/trt-env.yml up -d

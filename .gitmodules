@@ -22,3 +22,6 @@
 [submodule "trt-central"]
 	path = trt-central
 	url = https://github.com/trt-pos/trt-central.git
+[submodule "fxml2java"]
+	path = fxml2java
+	url = https://github.com/trt-pos/fxml2java.git

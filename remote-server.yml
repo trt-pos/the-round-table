@@ -25,7 +25,7 @@ services:
     command:
       - "/srv/trt_central/bin/rest-api"
     ports:
-      - "9501:8080"
+      - "9501:8000"
     networks:
       - trt-net
   
@@ -45,6 +45,25 @@ services:
       - "/srv/trt_plugin_repo/bin/plugin-repo"
     ports:
       - "9502:1238"
+    networks:
+      - trt-net
+  
+  dev_plugin_repo:
+    image: ubuntu:latest
+    container_name: trt_dev_plugin_repo
+    restart: always
+    environment:
+      TRT_PLUGINS_REPO_DIR: /srv/trt_plugin_repo/plugins
+      TRT_PLUGINS_REPO_PORT: 1238
+      TRT_PLUGINS_REPO_PASSWORD: abc123.
+      TRT_PLUGINS_REPO_ADDRS: 0.0.0.0
+    volumes:
+      - ./output/trt-central/bin/plugin-repo:/srv/trt_plugin_repo/bin/plugin-repo:ro
+      - ./output/trt-central/dev-plugins:/srv/trt_plugin_repo/plugins
+    command:
+      - "/srv/trt_plugin_repo/bin/plugin-repo"
+    ports:
+      - "9503:1238"
     networks:
       - trt-net
   

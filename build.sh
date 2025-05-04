@@ -25,8 +25,9 @@ SERVER_OUTPUT="$OUTPUT/trt-central"
 
 mkdir -p "$SERVER_OUTPUT"
 mkdir "$SERVER_OUTPUT/bin"
-mkdir "$SERVER_OUTPUT/downloads"
+mkdir "$SERVER_OUTPUT/resources"
 mkdir "$SERVER_OUTPUT/plugins"
+mkdir "$SERVER_OUTPUT/dev-plugins"
 
 (
   cd trt-central || exit
@@ -53,15 +54,15 @@ cp -r desktop-app/output/* "$OUTPUT"
 (
   cd "${OUTPUT}" || exit
 
-  cp "theroundtable-windows-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
-  cp "theroundtable-linux-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/downloads"
+  cp "theroundtable-windows-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/resources"
+  cp "theroundtable-linux-x64/bin/desktop-app.jar" "$SERVER_OUTPUT/resources"
 
-  cp "theroundtable-windows-x64/start.exe" "$SERVER_OUTPUT/downloads/start-win-x64.bin"
-  cp "theroundtable-linux-x64/start" "$SERVER_OUTPUT/downloads/start-linux-x64.bin"
+  cp "theroundtable-windows-x64/start.exe" "$SERVER_OUTPUT/resources/start-win-x64.bin"
+  cp "theroundtable-linux-x64/start" "$SERVER_OUTPUT/resources/start-linux-x64.bin"
 
-  cp trt-installer-* "$SERVER_OUTPUT/downloads"
-  mv "theroundtable-windows-x64.zip" "$SERVER_OUTPUT/downloads"
-  mv "theroundtable-linux-x64.zip" "$SERVER_OUTPUT/downloads"
+  cp trt-installer-* "$SERVER_OUTPUT/resources"
+  mv "theroundtable-windows-x64.zip" "$SERVER_OUTPUT/resources"
+  mv "theroundtable-linux-x64.zip" "$SERVER_OUTPUT/resources"
 )
 
 #######################################################################
@@ -106,22 +107,29 @@ bash build-plugins.sh all
 #######################################################################
 # Uploading the plugins to the trt-repo
 #######################################################################
-cd "$SERVER_OUTPUT" || exit
-bin/plugin-repo -a 127.0.0.1 -p 8500 --password abc123. --dir plugins/ &
-TRT_REPO_PID=$!
-cd - >/dev/null
+post_plugins() {
+  PLUGIN_REPO_FOLDER=$1
+  
+  cd "$SERVER_OUTPUT" || exit
+  bin/plugin-repo -a 127.0.0.1 -p 8500 --password abc123. --dir "$PLUGIN_REPO_FOLDER/" &
+  TRT_REPO_PID=$!
+  cd ..
+  
+  (
+    cd "$OUTPUT/$PLUGIN_REPO_FOLDER" || exit
+    for jar_file in *.jar; do
+      curl -w "%{http_code}\n" \
+           -X POST \
+           -F "file=@${jar_file}" \
+           -H "Authorization: Bearer abc123." \
+           http://127.0.0.1:8500/plugin/
+    done
+  )
+  
+  sleep 1
+  
+  kill -9 "$TRT_REPO_PID"
+}
 
-(
-  cd "$OUTPUT/plugins" || exit
-  for jar_file in *.jar; do
-    curl -w "%{http_code}\n" \
-         -X POST \
-         -F "file=@${jar_file}" \
-         -H "Authorization: Bearer abc123." \
-         http://127.0.0.1:8500/plugins-repo/plugin/
-  done
-)
-
-sleep 1
-
-kill -9 "$TRT_REPO_PID"
+post_plugins "plugins"
+post_plugins "dev-plugins"

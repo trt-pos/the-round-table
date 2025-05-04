@@ -21,7 +21,7 @@ services:
       TRT_DB_CONN: mariadb://LOCAL_ADMIN:abc123.@remote_db_server:3306/theroundtable
     volumes:
       - ./output/trt-central/bin/rest-api:/srv/trt_central/bin/rest-api:ro
-      - ./output/trt-central/downloads:/srv/trt_central/downloads:ro
+      - ./output/trt-central/resources:/srv/trt_central/resources:ro
     command:
       - "/srv/trt_central/bin/rest-api"
     ports:

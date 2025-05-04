@@ -40,17 +40,17 @@ mkdir -p "$DEV_PLUGINS_DIR"
 
 PLUGIN_NAME=$1
 
-if [[ "$PLUGIN_NAME" != "all" && "$PLUGIN_NAME" != "dev" && "$PLUGIN_NAME" != "prod" ]]; then
+if [[ "$PLUGIN_NAME" != "dev" && "$PLUGIN_NAME" != "prod" ]]; then
     build-plugin "$PLUGIN_NAME" &
 fi
 
-if [ "$PLUGIN_NAME" == "prod" ] || [ "$PLUGIN_NAME" == "all" ]; then
+if [ "$PLUGIN_NAME" == "prod" ] || [ "$PLUGIN_NAME" == "dev" ]; then
     for plugin in "${plugins[@]}"; do
       build-plugin "$plugin" "$PLUGINS_DIR" &
     done
 fi
 
-if [ "$PLUGIN_NAME" == "dev" ] || [ "$PLUGIN_NAME" == "all" ]; then
+if [ "$PLUGIN_NAME" == "dev" ]; then
     for plugin in "${dev_plugins[@]}"; do
       build-plugin "$plugin" "$DEV_PLUGINS_DIR" &
     done

@@ -41,7 +41,19 @@ mkdir -p "$DEV_PLUGINS_DIR"
 PLUGIN_NAME=$1
 
 if [[ "$PLUGIN_NAME" != "dev" && "$PLUGIN_NAME" != "prod" ]]; then
-    build-plugin "$PLUGIN_NAME" &
+  
+  if [[ "${plugins[*]}" == *"plugin-$PLUGIN_NAME"* ]]; then
+    build-plugin "$PLUGIN_NAME" "$PLUGINS_DIR"
+    exit 0
+  fi
+   
+  if [[ "${dev_plugins[*]}" == *"plugin-$PLUGIN_NAME"* ]]; then
+    build-plugin "$PLUGIN_NAME" "$DEV_PLUGINS_DIR"
+    exit 0
+  fi
+  
+  echo "Plugins not found. Please specify a plugin name or use 'prod' or 'dev' to build all plugins."
+  exit 1
 fi
 
 if [ "$PLUGIN_NAME" == "prod" ] || [ "$PLUGIN_NAME" == "dev" ]; then

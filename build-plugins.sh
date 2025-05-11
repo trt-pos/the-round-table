@@ -42,17 +42,17 @@ PLUGIN_NAME=$1
 
 if [[ "$PLUGIN_NAME" != "dev" && "$PLUGIN_NAME" != "prod" ]]; then
   
-  if [[ "${plugins[*]}" == *"plugin-$PLUGIN_NAME"* ]]; then
+  if [[ "${plugins[*]}" == *"$PLUGIN_NAME"* ]]; then
     build-plugin "$PLUGIN_NAME" "$PLUGINS_DIR"
     exit 0
   fi
    
-  if [[ "${dev_plugins[*]}" == *"plugin-$PLUGIN_NAME"* ]]; then
+  if [[ "${dev_plugins[*]}" == *"$PLUGIN_NAME"* ]]; then
     build-plugin "$PLUGIN_NAME" "$DEV_PLUGINS_DIR"
     exit 0
   fi
   
-  echo "Plugins not found. Please specify a plugin name or use 'prod' or 'dev' to build all plugins."
+  echo "Plugin not found. Please specify a plugin name or use 'prod' or 'dev' to build all plugins."
   exit 1
 fi
 

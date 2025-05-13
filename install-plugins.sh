@@ -44,3 +44,6 @@ cd "output" || exit
 
 post_plugins "plugins"
 post_plugins "dev-plugins"
+
+cp -r plugins/* "$HOME"/.round-table-dev/plugins/localhost.9502/
+cp -r dev-plugins/* "$HOME"/.round-table-dev/plugins/localhost.9503/

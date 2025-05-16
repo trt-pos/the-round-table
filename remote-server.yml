@@ -18,7 +18,7 @@ services:
     container_name: trt_rest_api
     restart: always
     environment:
-      TRT_DB_CONN: mariadb://LOCAL_ADMIN:abc123.@remote_db_server:3306/theroundtable
+      DATABASE_URL: mariadb://LOCAL_ADMIN:abc123.@remote_db_server:3306/theroundtable
     volumes:
       - ./output/trt-central/bin/rest-api:/srv/trt_central/bin/rest-api:ro
       - ./output/trt-central/resources:/srv/trt_central/resources:ro

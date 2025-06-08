@@ -9,7 +9,7 @@ build-plugin() {
       cd "plugin-$PLUGIN_NAME" || exit
       mvn clean package
       
-      PLUGIN_JAR="$(basename "$PWD").jar"
+      PLUGIN_JAR="$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
       if [ -f "$PLUGIN_JAR" ]; then 
         mv "$PLUGIN_JAR" "$OUTPUT_DIR"
       fi

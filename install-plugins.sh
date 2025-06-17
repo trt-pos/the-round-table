@@ -13,6 +13,10 @@ bash build-plugins.sh "$PLUGIN_NAME"
 post_plugins() {
   PLUGIN_REPO_FOLDER=$1
   
+  if [ -z "$(ls -A "$PLUGIN_REPO_FOLDER")" ]; then
+      return 
+  fi
+  
   cd "trt-central" || exit
   bin/plugin-repo -a 127.0.0.1 -p 8500 --password abc123. --dir "$PLUGIN_REPO_FOLDER/" &
   TRT_REPO_PID=$!
@@ -42,8 +46,16 @@ post_plugins() {
 
 cd "output" || exit
 
-post_plugins "plugins"
-post_plugins "dev-plugins"
+if [ -d "plugins/" ]; then
+  post_plugins "plugins"
+  if [ -n "$(ls -A "$PLUGIN_REPO_FOLDER")" ]; then
+    cp -r plugins/* "$HOME"/.round-table-dev/plugins/localhost.9502/
+  fi
+fi
+if [ -d "dev-plugins/" ]; then
+  post_plugins "dev-plugins"
+  if [ -n "$(ls -A "$PLUGIN_REPO_FOLDER")" ]; then
+    cp -r dev-plugins/* "$HOME"/.round-table-dev/plugins/localhost.9503/
+  fi
+fi
 
-cp -r plugins/* "$HOME"/.round-table-dev/plugins/localhost.9502/
-cp -r dev-plugins/* "$HOME"/.round-table-dev/plugins/localhost.9503/

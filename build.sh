@@ -117,6 +117,8 @@ post_plugins() {
   TRT_REPO_PID=$!
   cd ..
   
+  sleep 2
+  
   (
     cd "$OUTPUT/$PLUGIN_REPO_FOLDER" || exit
     for jar_file in *.jar; do

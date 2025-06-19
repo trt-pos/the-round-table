@@ -15,8 +15,8 @@ fi
 #######################################################################
 xhost +local:docker
 
-docker-compose -f remote-server.yml stop
-docker-compose -f desktop-app/trt-env.yml stop
+docker-compose -f remote-server.yml down
+docker-compose -f desktop-app/trt-env.yml down
 
 docker-compose -f remote-server.yml up --remove-orphans -d
 docker-compose -f desktop-app/trt-env.yml up --remove-orphans -d

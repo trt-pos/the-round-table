@@ -1,6 +1,9 @@
 #!/bin/bash
 set -u
 
+# This script should be avoided right now
+exit 1
+
 SCRIPT_DIR="$(pwd)"
 
 # Determinar el remote host. Si pasa como parametro produccion, se conecta al servidor de produccion, sino, se conecta al servidor de desarrollo

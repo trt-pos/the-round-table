@@ -3,12 +3,7 @@ set -u
 
 PLUGIN_NAME=$1
 
-bash build-plugins.sh "$PLUGIN_NAME"
-
-## This no longer works bcs the new plugin fs
-# mkdir "$HOME/.round-table-dev/plugins"
-# cp -r output/plugins/* ~/.round-table-dev/plugins/
-# cp -r output/dev-plugins/* ~/.round-table-dev/plugins/
+bash scripts/build-plugins.sh "$PLUGIN_NAME"
 
 post_plugins() {
   PLUGIN_REPO_FOLDER=$1

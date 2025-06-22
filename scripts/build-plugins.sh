@@ -6,10 +6,10 @@ build-plugin() {
     OUTPUT_DIR=$2
     
     (
-      cd "plugin-$PLUGIN_NAME" || exit
-      bash mvnw clean package
+      cd "plugins/$PLUGIN_NAME" || exit
+      bash ../../mvnw clean package
       
-      PLUGIN_JAR="$(bash mvnw help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
+      PLUGIN_JAR="$(bash ../../mvnw help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
       if [ -f "$PLUGIN_JAR" ]; then 
         mv "$PLUGIN_JAR" "$OUTPUT_DIR"
       fi
@@ -18,14 +18,13 @@ build-plugin() {
 
 # List of deployed plugins to build automatically when running this script with "all" as argument
 plugins=(
-    cash-register
-    receipt-manager
-    table-drawing
+    cr
+    rm
+    floor-plan
 )
 
 dev_plugins=(
-    spanish-billing
-    template
+    sb
     accounting
 )
 

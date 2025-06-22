@@ -2,22 +2,22 @@
 	path = desktop-app
 	url = https://github.com/trt-pos/desktop-app.git
 [submodule "plugin-cash-register"]
-	path = plugin-cash-register
+	path = plugins/cr
 	url = https://github.com/trt-pos/plugin-cash-register.git
 [submodule "plugin-receipt-manager"]
-	path = plugin-receipt-manager
+	path = plugins/rm
 	url = https://github.com/trt-pos/plugin-receipt-manager.git
 [submodule "plugin-spanish-billing"]
-	path = plugin-spanish-billing
+	path = plugins/sb
 	url = https://github.com/trt-pos/plugin-spanish-billing.git
 [submodule "plugin-table-drawing"]
-	path = plugin-table-drawing
+	path = plugins/floor-plan
 	url = https://github.com/trt-pos/plugin-table-drawing.git
 [submodule "plugin-template"]
 	path = plugin-template
 	url = https://github.com/trt-pos/plugin-template.git
 [submodule "plugin-accounting"]
-	path = plugin-accounting
+	path = plugins/accounting
 	url = https://github.com/trt-pos/plugin-accounting.git
 [submodule "trt-central"]
 	path = trt-central

@@ -94,7 +94,7 @@ cp -r .jdks/openjdk-${JDK_VERSION}_windows-x64_bin/* "${OUTPUT}/theroundtable-wi
 #######################################################################
 # Building the plugins
 #######################################################################
-bash build-plugins.sh all
+bash scripts/build-plugins.sh all
 
 #######################################################################
 # Uploading the plugins to the trt-repo

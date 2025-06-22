@@ -2,17 +2,6 @@
 
 set -u
 
-BUILD_MODE=$1
-
-#######################################################################
-# Checkout the production version of the project
-#######################################################################
-if [ "$BUILD_MODE" == "prod" ]; then
-    git submodule update --init --recursive
-    # shellcheck disable=SC2016
-    git submodule foreach --recursive 'git fetch --tags && git checkout $(git tag -l "v*" --sort=-v:refname | head -n1)'
-fi
-
 #######################################################################
 # Cleaning up the output directory
 #######################################################################
@@ -45,7 +34,7 @@ mkdir "$SERVER_OUTPUT/dev-plugins"
 #######################################################################
 (
   cd desktop-app || exit
-  bash build.sh "$BUILD_MODE"
+  bash build.sh all
 )
 
 #######################################################################
@@ -105,7 +94,7 @@ cp -r .jdks/openjdk-${JDK_VERSION}_windows-x64_bin/* "${OUTPUT}/theroundtable-wi
 #######################################################################
 # Building the plugins
 #######################################################################
-bash build-plugins.sh "$BUILD_MODE"
+bash build-plugins.sh all
 
 #######################################################################
 # Uploading the plugins to the trt-repo

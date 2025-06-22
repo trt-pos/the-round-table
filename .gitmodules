@@ -1,27 +1,27 @@
 [submodule "desktop-app"]
 	path = desktop-app
 	url = https://github.com/trt-pos/desktop-app.git
-[submodule "plugin-cash-register"]
-	path = plugins/cr
-	url = https://github.com/trt-pos/plugin-cash-register.git
-[submodule "plugin-receipt-manager"]
-	path = plugins/rm
-	url = https://github.com/trt-pos/plugin-receipt-manager.git
-[submodule "plugin-spanish-billing"]
-	path = plugins/sb
-	url = https://github.com/trt-pos/plugin-spanish-billing.git
-[submodule "plugin-table-drawing"]
-	path = plugins/floor-plan
-	url = https://github.com/trt-pos/plugin-table-drawing.git
 [submodule "plugin-template"]
 	path = plugin-template
 	url = https://github.com/trt-pos/plugin-template.git
-[submodule "plugin-accounting"]
-	path = plugins/accounting
-	url = https://github.com/trt-pos/plugin-accounting.git
 [submodule "trt-central"]
 	path = trt-central
 	url = https://github.com/trt-pos/trt-central.git
 [submodule "fxml2java"]
 	path = fxml2java
 	url = https://github.com/trt-pos/fxml2java.git
+[submodule "plugins/accounting"]
+	path = plugins/accounting
+	url = https://github.com/trt-pos/plugin-accounting.git
+[submodule "plugins/cr"]
+	path = plugins/cr
+	url = https://github.com/trt-pos/plugin-cash-register.git
+[submodule "plugins/rm"]
+	path = plugins/rm
+	url = https://github.com/trt-pos/plugin-receipt-manager.git
+[submodule "plugins/sb"]
+	path = plugins/sb
+	url = https://github.com/trt-pos/plugin-spanish-billing.git
+[submodule "plugins/floor-plan"]
+	path = plugins/floor-plan
+	url = https://github.com/trt-pos/plugin-table-drawing.git

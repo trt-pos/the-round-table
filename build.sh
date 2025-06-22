@@ -70,26 +70,27 @@ cp -r desktop-app/output/* "$OUTPUT"
 #######################################################################
 # Add the jdk needed to create a portable version of the app
 #######################################################################
-## 24.0.1
-# Linux x64: https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_linux-x64_bin.tar.gz
-# Windows x64: https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip
+## 22.0.2
+# Linux x64: https://download.java.net/java/GA/jdk22.0.2/c9ecb94cd31b495da20a27d4581645e8/9/GPL/openjdk-22.0.2_linux-x64_bin.tar.gz
+# Windows x64: https://download.java.net/java/GA/jdk22.0.2/c9ecb94cd31b495da20a27d4581645e8/9/GPL/openjdk-22.0.2_windows-x64_bin.zip
 mkdir -p .jdks
+JDK_VERSION="22.0.2"
 
 (
   cd .jdks || exit
 
-  if [ ! -d "openjdk-24.0.1_linux-x64_bin" ]; then
-    wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_linux-x64_bin.tar.gz
-    tar -xzf openjdk-24.0.1_linux-x64_bin.tar.gz
-    mv jdk-24.0.1 openjdk-24.0.1_linux-x64_bin
-    rm -r openjdk-24.0.1_linux-x64_bin.tar.gz
+  if [ ! -d "openjdk-${JDK_VERSION}_linux-x64_bin" ]; then
+    wget https://download.java.net/java/GA/jdk22.0.2/c9ecb94cd31b495da20a27d4581645e8/9/GPL/openjdk-22.0.2_linux-x64_bin.tar.gz
+    tar -xzf openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz
+    mv jdk-${JDK_VERSION} openjdk-${JDK_VERSION}_linux-x64_bin
+    rm -r openjdk-${JDK_VERSION}_linux-x64_bin.tar.gz
   fi
 
-  if [ ! -d "openjdk-24.0.1_windows-x64_bin" ]; then
-    wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip
-    unzip openjdk-24.0.1_windows-x64_bin.zip
-    mv jdk-24.0.1 openjdk-24.0.1_windows-x64_bin
-    rm -r openjdk-24.0.1_windows-x64_bin.zip
+  if [ ! -d "openjdk-${JDK_VERSION}_windows-x64_bin" ]; then
+    wget https://download.java.net/java/GA/jdk22.0.2/c9ecb94cd31b495da20a27d4581645e8/9/GPL/openjdk-22.0.2_windows-x64_bin.zip
+    unzip openjdk-${JDK_VERSION}_windows-x64_bin.zip
+    mv jdk-${JDK_VERSION} openjdk-${JDK_VERSION}_windows-x64_bin
+    rm -r openjdk-${JDK_VERSION}_windows-x64_bin.zip
   fi
 )
 
@@ -98,8 +99,8 @@ mkdir -p .jdks
 mkdir -p "$OUTPUT/theroundtable-linux-x64/jdk"
 mkdir -p "$OUTPUT/theroundtable-windows-x64/jdk"
 
-cp -r .jdks/openjdk-24.0.1_linux-x64_bin/* "${OUTPUT}/theroundtable-linux-x64/jdk"
-cp -r .jdks/openjdk-24.0.1_windows-x64_bin/* "${OUTPUT}/theroundtable-windows-x64/jdk"
+cp -r .jdks/openjdk-${JDK_VERSION}_linux-x64_bin/* "${OUTPUT}/theroundtable-linux-x64/jdk"
+cp -r .jdks/openjdk-${JDK_VERSION}_windows-x64_bin/* "${OUTPUT}/theroundtable-windows-x64/jdk"
 
 #######################################################################
 # Building the plugins

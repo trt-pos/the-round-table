@@ -1,6 +1,3 @@
-[submodule "desktop-app"]
-	path = desktop-app
-	url = https://github.com/trt-pos/desktop-app.git
 [submodule "plugin-template"]
 	path = plugin-template
 	url = https://github.com/trt-pos/plugin-template.git
@@ -25,3 +22,6 @@
 [submodule "plugins/floor-plan"]
 	path = plugins/floor-plan
 	url = https://github.com/trt-pos/plugin-table-drawing.git
+[submodule "core"]
+	path = core
+	url = https://github.com/trt-pos/core.git

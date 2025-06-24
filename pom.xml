@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>desktop-app</module>
+        <module>core</module>
         <module>plugins</module>
     </modules>
 
@@ -58,6 +58,11 @@
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.trt-pos</groupId>
+            <artifactId>t-cleaner</artifactId>
+            <version>v0.1.0</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -78,7 +83,7 @@
                             </path>
                             <path>
                                 <groupId>org.lebastudios.theroundtable</groupId>
-                                <artifactId>desktop-app</artifactId>
+                                <artifactId>core</artifactId>
                                 <version>3.0.0</version>
                             </path>
                             <path>
@@ -87,6 +92,23 @@
                                 <version>1.18.34</version>
                             </path>
                         </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.lebastudios.theroundtable</groupId>
+                    <artifactId>t-cleaner</artifactId>
+                    <version>0.1.0</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>clean-translations</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <pluginId>${project.artifactId}</pluginId>
+                        <sort>true</sort>
                     </configuration>
                 </plugin>
             </plugins>

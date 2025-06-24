@@ -33,14 +33,14 @@ mkdir "$SERVER_OUTPUT/dev-plugins"
 # Building the desktop app
 #######################################################################
 (
-  cd desktop-app || exit
+  cd core || exit
   bash build.sh all
 )
 
 #######################################################################
 # Copy the desktop app to the server file system
 #######################################################################
-cp -r desktop-app/output/* "$OUTPUT"
+cp -r core/output/* "$OUTPUT"
 
 (
   cd "${OUTPUT}" || exit

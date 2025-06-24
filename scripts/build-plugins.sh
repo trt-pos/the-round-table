@@ -11,7 +11,7 @@ build-plugin() {
       
       PLUGIN_JAR="$(bash ../../mvnw help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
       if [ -f "$PLUGIN_JAR" ]; then 
-        mv "$PLUGIN_JAR" "$OUTPUT_DIR"
+        cp "target/$PLUGIN_JAR" "$OUTPUT_DIR"
       fi
     )
 }

@@ -7,12 +7,13 @@ build-plugin() {
     
     (
       cd "plugins/$PLUGIN_NAME" || exit
-      bash ../../mvnw clean package
-      
-      PLUGIN_JAR="$(bash ../../mvnw help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
-      if [ -f "$PLUGIN_JAR" ]; then 
-        cp "target/$PLUGIN_JAR" "$OUTPUT_DIR"
+      if ! bash mvnw clean package; then
+        echo "Failed to build plugin: $PLUGIN_NAME"
+        exit 1
       fi
+      
+      PLUGIN_JAR="$(bash mvnw help:evaluate -Dexpression=project.name -q -DforceStdout).jar"
+      cp "target/$PLUGIN_JAR" "$OUTPUT_DIR"
     )
 }
 

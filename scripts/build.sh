@@ -20,22 +20,35 @@ mkdir "$SERVER_OUTPUT/resources"
 mkdir "$SERVER_OUTPUT/plugins"
 mkdir "$SERVER_OUTPUT/dev-plugins"
 
-(
+if ! (
   cd trt-central || exit
   cargo build --release -p bin --bin bin &
   cargo build --release -p plugin-repo --bin plugin-repo &
   wait
-  cp "target/release/bin" "$SERVER_OUTPUT/bin/rest-api"
-  cp "target/release/plugin-repo" "$SERVER_OUTPUT/bin/plugin-repo"
-)
+  if ! cp "target/release/bin" "$SERVER_OUTPUT/bin/rest-api"; then
+    echo "Failed to copy rest-api binary"
+    exit 1
+  fi
+
+  if ! cp "target/release/plugin-repo" "$SERVER_OUTPUT/bin/plugin-repo"; then
+    echo "Failed to copy plugin-repo binary"
+    exit 1
+  fi
+); then
+  echo "Failed to build central server structure"
+  exit 1
+fi
 
 #######################################################################
 # Building the desktop app
 #######################################################################
-(
+if ! (
   cd core || exit
   bash build.sh all
-)
+); then
+  echo "Failed to build desktop app jar"
+  exit 1
+fi
 
 #######################################################################
 # Copy the desktop app to the server file system
@@ -101,14 +114,14 @@ bash scripts/build-plugins.sh all
 #######################################################################
 post_plugins() {
   PLUGIN_REPO_FOLDER=$1
-  
+
   cd "$SERVER_OUTPUT" || exit
   bin/plugin-repo -a 127.0.0.1 -p 8500 --password abc123. --dir "$PLUGIN_REPO_FOLDER/" &
   TRT_REPO_PID=$!
   cd ..
-  
+
   sleep 2
-  
+
   (
     cd "$OUTPUT/$PLUGIN_REPO_FOLDER" || exit
     for jar_file in *.jar; do
@@ -119,9 +132,9 @@ post_plugins() {
            http://127.0.0.1:8500/plugin/
     done
   )
-  
+
   sleep 1
-  
+
   kill -9 "$TRT_REPO_PID"
 }
 

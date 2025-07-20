@@ -25,3 +25,6 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/trt-pos/core.git
+[submodule "t-cleaner"]
+	path = t-cleaner
+	url = https://github.com/trt-pos/t-cleaner

@@ -43,3 +43,6 @@ build/
 /.idea/
 /output/
 /.jdks/
+
+### Zed ###
+.zed/
